@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murasoli | Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00e5a0;
+    --accent2: #7c6eff;
+    --text: #f0efe8;
+    --muted: #888882;
+    --card-bg: #13131c;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 6%;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); font-size: 0.88rem; font-weight: 500;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 6rem 6% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-glow {
+    position: absolute; top: 20%; right: 10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(124,110,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute; bottom: 10%; left: 5%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,229,160,0.08); border: 1px solid rgba(0,229,160,0.2);
+    color: var(--accent); font-size: 0.78rem; font-weight: 500;
+    padding: 6px 14px; border-radius: 100px; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 1.8rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-tag span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero-name .highlight {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-role {
+    font-size: 1.15rem; color: var(--muted); font-weight: 300;
+    margin-bottom: 2.5rem; max-width: 500px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn {
+    padding: 0.8rem 2rem; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 500; cursor: pointer;
+    text-decoration: none; transition: all 0.2s; letter-spacing: 0.02em;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--accent); color: #0a0f0c;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: #00ffb2; transform: translateY(-2px); }
+
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 6%; }
+
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; color: var(--accent);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700; line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--muted); max-width: 500px;
+    font-size: 1rem; font-weight: 300;
+    margin-bottom: 3.5rem;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 6%;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+
+  .about-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .about-initials {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+    color: #0a0f0c; margin-bottom: 1.5rem;
+  }
+
+  .about-text p { color: #c8c7c0; font-weight: 300; margin-bottom: 1rem; }
+
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2rem;
+  }
+
+  .stat-box {
+    background: var(--surface2); border-radius: 12px;
+    padding: 1.2rem; border: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 800;
+    color: var(--accent); line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.03em; }
+
+  .edu-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    position: relative; overflow: hidden;
+  }
+
+  .edu-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(124,110,255,0.12);
+    border: 1px solid rgba(124,110,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+
+  .edu-degree {
+    font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .edu-school { color: var(--accent2); font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+  .edu-detail { color: var(--muted); font-size: 0.83rem; }
+
+  /* SKILLS */
+  .skills-section { background: var(--surface); }
+
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.8rem;
+    transition: all 0.3s; cursor: default;
+    position: relative; overflow: hidden;
+  }
+
+  .skill-card:hover {
+    border-color: rgba(0,229,160,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,229,160,0.06);
+  }
+
+  .skill-card:hover .skill-icon { background: rgba(0,229,160,0.15); }
+
+  .skill-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 1rem;
+    transition: background 0.3s;
+  }
+
+  .skill-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .skill-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+  .skill-bar-wrap { margin-top: 1rem; }
+  .skill-bar-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.72rem; color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .skill-bar-track {
+    height: 3px; background: rgba(255,255,255,0.07);
+    border-radius: 100px; overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 100px;
+    transform-origin: left;
+    animation: growBar 1.2s 0.5s ease both;
+  }
+
+  @keyframes growBar {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  /* PROJECT */
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden;
+    transition: all 0.3s;
+    max-width: 900px; margin: 0 auto;
+  }
+
+  .project-card:hover {
+    border-color: rgba(0,229,160,0.25);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+  }
+
+  .project-viz {
+    background: var(--surface2);
+    padding: 2.5rem;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1rem; border-bottom: 1px solid var(--border);
+  }
+
+  .chart-col {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+  }
+
+  .bar-stack { display: flex; flex-direction: column-reverse; gap: 3px; height: 120px; align-items: center; }
+
+  .bar-segment {
+    width: 32px; border-radius: 4px 4px 0 0;
+    animation: growUp 0.8s ease both;
+  }
+
+  @keyframes growUp {
+    from { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    to { transform: scaleY(1); opacity: 1; }
+  }
+
+  .bar-seg-green { background: var(--accent); }
+  .bar-seg-purple { background: var(--accent2); }
+  .bar-seg-orange { background: #ff9040; }
+
+  .chart-label { font-size: 0.7rem; color: var(--muted); text-align: center; }
+  .chart-val { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--text); }
+
+  .kpi-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; border-bottom: 1px solid var(--border);
+  }
+
+  .kpi-item {
+    padding: 1.5rem 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .kpi-item:last-child { border-right: none; }
+
+  .kpi-val {
+    font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800;
+    color: var(--accent); line-height: 1; margin-bottom: 4px;
+  }
+
+  .kpi-key { font-size: 0.78rem; color: var(--muted); }
+
+  .project-body { padding: 2rem 2.5rem; }
+
+  .proj-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+
+  .proj-tag {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em;
+    padding: 4px 10px; border-radius: 100px;
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.18);
+    color: var(--accent);
+  }
+
+  .proj-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .proj-desc { color: #c0bfb8; font-size: 0.93rem; font-weight: 300; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .proj-highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .proj-highlights li {
+    font-size: 0.85rem; color: var(--muted);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+
+  .proj-highlights li::before {
+    content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* CONTACT */
+  .contact-section { background: var(--surface); }
+
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-label { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.04em; }
+
+  .form-input, .form-textarea {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.85rem 1rem;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-textarea { resize: vertical; min-height: 120px; }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: rgba(0,229,160,0.4);
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.2rem 1.5rem;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+
+  .contact-detail-label { font-size: 0.73rem; color: var(--muted); margin-bottom: 2px; }
+  .contact-detail-val { font-size: 0.93rem; font-weight: 500; }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 6%;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+
+  .footer-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 800;
+    color: var(--accent); letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .footer-copy { font-size: 0.8rem; color: var(--muted); }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">M.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#project">Project</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span></span>
+      Available for opportunities
+    </div>
+    <h1 class="hero-name">
+      Hi, I'm<br>
+      <span class="highlight">Murasoli</span>
+    </h1>
+    <p class="hero-role">
+      Data Analyst · Turning raw data into clear, actionable insights with SQL, Python, Power BI, Tableau & Excel.
+    </p>
+    <div class="hero-btns">
+      <a href="#project" class="btn btn-primary">View My Work →</a>
+      <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <div class="about-grid">
+    <div>
+      <h2 class="section-title">Data-driven &amp;<br>detail-obsessed.</h2>
+      <p class="section-sub">A Computer Science Engineer passionate about uncovering the stories hidden in data.</p>
+      <div class="about-card">
+        <div class="about-initials">M</div>
+        <div class="about-text">
+          <p>I'm Murasoli, a Computer Science Engineering graduate with a strong foundation in data analysis and business intelligence.</p>
+          <p>I specialize in transforming complex datasets into meaningful visualizations and strategic insights that drive real decisions.</p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-box">
+            <div class="stat-num">5+</div>
+            <div class="stat-label">Tools Mastered</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">BE</div>
+            <div class="stat-label">Computer Science</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">1</div>
+            <div class="stat-label">Featured Project</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">Passion for Data</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div class="edu-box">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-degree">Bachelor of Engineering</div>
+        <div class="edu-school">Computer Science &amp; Engineering</div>
+        <div class="edu-detail">Graduated with strong fundamentals in programming, algorithms, and data systems</div>
+      </div>
+      <div class="edu-box" style="background: linear-gradient(135deg, rgba(0,229,160,0.05), rgba(124,110,255,0.05)); border-color: rgba(0,229,160,0.15);">
+        <div class="edu-icon" style="background: rgba(0,229,160,0.1); border-color: rgba(0,229,160,0.2);">📊</div>
+        <div class="edu-degree">Data Analytics Focus</div>
+        <div class="edu-school" style="color: var(--accent);">Business Intelligence &amp; Insights</div>
+        <div class="edu-detail">Specializing in end-to-end data pipelines — from raw SQL queries to executive dashboards</div>
+      </div>
+      <div class="edu-box">
+        <div class="edu-icon" style="background: rgba(124,110,255,0.1); border-color: rgba(124,110,255,0.2);">🔍</div>
+        <div class="edu-degree">Analytical Mindset</div>
+        <div class="edu-school" style="color: var(--accent2);">Problem Solver</div>
+        <div class="edu-detail">Passionate about uncovering patterns, trends, and anomalies that drive strategic decisions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+  <div class="section-label">Technical Skills</div>
+  <h2 class="section-title">My Toolkit</h2>
+  <p class="section-sub">Five powerful tools I use to extract, analyze, and present data insights.</p>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🗄️</div>
+      <div class="skill-name">SQL</div>
+      <div class="skill-desc">Complex queries, joins, aggregations, stored procedures & database optimization</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Proficiency</span><span>90%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 90%;"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-name">Python</div>
+      <div class="skill-desc">Pandas, NumPy, Matplotlib & Seaborn for data wrangling and visualization</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Proficiency</span><span>85%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">Power BI</div>
+      <div class="skill-desc">Interactive dashboards, DAX measures, data modeling & report publishing</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Proficiency</span><span>88%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 88%;"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">📗</div>
+      <div class="skill-name">Excel</div>
+      <div class="skill-desc">Pivot tables, advanced formulas, VLOOKUP, Power Query & data cleaning</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Proficiency</span><span>92%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 92%;"></div></div>
+      </div>
+    </div>
+
+    <div class="skill-card" style="grid-column: span 1;">
+      <div class="skill-icon">📉</div>
+      <div class="skill-name">Tableau</div>
+      <div class="skill-desc">Story-driven visual analytics, calculated fields & published workbooks</div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label"><span>Proficiency</span><span>82%</span></div>
+        <div class="skill-bar-track"><div class="skill-bar-fill" style="width: 82%;"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECT -->
+<section id="project">
+  <div class="section-label">Featured Project</div>
+  <h2 class="section-title">Customer Sales Analysis</h2>
+  <p class="section-sub" style="margin-bottom: 2.5rem;">An end-to-end analysis uncovering sales trends, customer behavior, and revenue opportunities.</p>
+
+  <div class="project-card">
+    <!-- Mock chart viz -->
+    <div class="project-viz">
+      <div class="chart-col">
+        <div class="bar-stack">
+          <div class="bar-segment bar-seg-green" style="height: 80px; animation-delay: 0.1s;"></div>
+          <div class="bar-segment bar-seg-purple" style="height: 30px; animation-delay: 0.15s;"></div>
+        </div>
+        <div class="chart-val">₹2.4L</div>
+        <div class="chart-label">Q1</div>
+      </div>
+      <div class="chart-col">
+        <div class="bar-stack">
+          <div class="bar-segment bar-seg-green" style="height: 60px; animation-delay: 0.2s;"></div>
+          <div class="bar-segment bar-seg-purple" style="height: 45px; animation-delay: 0.25s;"></div>
+        </div>
+        <div class="chart-val">₹2.1L</div>
+        <div class="chart-label">Q2</div>
+      </div>
+      <div class="chart-col">
+        <div class="bar-stack">
+          <div class="bar-segment bar-seg-green" style="height: 95px; animation-delay: 0.3s;"></div>
+          <div class="bar-segment bar-seg-orange" style="height: 25px; animation-delay: 0.35s;"></div>
+        </div>
+        <div class="chart-val">₹3.1L</div>
+        <div class="chart-label">Q3</div>
+      </div>
+      <div class="chart-col">
+        <div class="bar-stack">
+          <div class="bar-segment bar-seg-green" style="height: 110px; animation-delay: 0.4s;"></div>
+          <div class="bar-segment bar-seg-purple" style="height: 20px; animation-delay: 0.45s;"></div>
+        </div>
+        <div class="chart-val">₹3.8L</div>
+        <div class="chart-label">Q4</div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-strip">
+      <div class="kpi-item">
+        <div class="kpi-val">+34%</div>
+        <div class="kpi-key">Revenue Growth</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-val">12K+</div>
+        <div class="kpi-key">Records Analyzed</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-val">5</div>
+        <div class="kpi-key">Key Insights Found</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="project-body">
+      <div class="proj-tags">
+        <span class="proj-tag">SQL</span>
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">Power BI</span>
+        <span class="proj-tag">Excel</span>
+      </div>
+      <div class="proj-title">Customer Sales Analysis Dashboard</div>
+      <p class="proj-desc">
+        A comprehensive data analysis project examining customer purchasing patterns, regional sales performance, and product category trends. Built an interactive Power BI dashboard on top of SQL-queried data, with Python handling data cleaning and statistical analysis.
+      </p>
+      <ul class="proj-highlights">
+        <li>Extracted and cleaned 12,000+ transaction records using SQL queries and Python Pandas</li>
+        <li>Identified top 20% customers driving 68% of total revenue (Pareto analysis)</li>
+        <li>Built an interactive Power BI dashboard with drill-down by region, product, and time period</li>
+        <li>Discovered seasonal trends leading to a recommended 15% inventory optimization</li>
+        <li>Automated monthly reporting pipeline, reducing manual effort by 4 hours/week</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Let's Work Together</h2>
+  <p class="section-sub">Open to data analyst roles, freelance projects, and collaborations.</p>
+
+  <div class="contact-grid">
+    <div class="contact-form">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell me about the opportunity..."></textarea>
+      </div>
+      <button class="btn btn-primary" style="align-self: flex-start;">Send Message →</button>
+    </div>
+
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div>
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-val">maaran678@gmail.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">💼</div>
+        <div>
+          <div class="contact-detail-label">LinkedIn</div>
+          <div class="contact-detail-val">https://www.linkedin.com/in/murasoli7</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-detail-label">Location</div>
+          <div class="contact-detail-val">Tamil Nadu, India</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🐙</div>
+        <div>
+          <div class="contact-detail-label">GitHub</div>
+          <div class="contact-detail-val">github.com/murasoli</div>
+        </div>
+      </div>
+      <div style="background: linear-gradient(135deg, rgba(0,229,160,0.08), rgba(124,110,255,0.08)); border: 1px solid rgba(0,229,160,0.15); border-radius: 14px; padding: 1.5rem; margin-top: 0.5rem;">
+        <div style="font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--accent);">Open to Work</div>
+        <div style="font-size: 0.83rem; color: var(--muted); line-height: 1.6;">Actively seeking Data Analyst positions. Quick to respond — usually within 24 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Murasoli</div>
+  <div class="footer-copy">© 2025 · Data Analyst · BE Computer Science Engineering</div>
+</footer>
+
+</body>
+</html>
